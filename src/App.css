@@ -1,38 +1,120 @@
+/* src/App.css */
+
+/* Overall App Styles */
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  background-color: #f4fff1;  /* Light green background */
   min-height: 100vh;
+  color: #004d00;  /* Dark green text */
+}
+
+/* Header Styling */
+.App-header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 20px;
+  background-color: #004d00;  /* Dark green */
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.hamburger-menu {
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Main Content */
+.home-content {
+  padding: 20px;
+}
+
+/* Section Styling */
+.section {
+  margin: 20px 0;
+  background-color: white;
+  border: 2px solid #004d00;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #004d00;  /* Dark green for section titles */
+}
+
+/* Quick Actions */
+.quick-actions {
+  margin-top: 20px;
+}
+
+.quick-actions button {
+  background-color: #004d00;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.quick-actions button:hover {
+  background-color: #66ff66;  /* Light green hover effect */
+}
+
+/* Barcode Scanner */
+.barcode-scanner {
+  margin-top: 20px;
+}
+
+.barcode-scanner input {
+  padding: 10px;
+  margin-right: 10px;
+  border: 2px solid #004d00;
+  border-radius: 5px;
+}
+
+.barcode-scanner button {
+  background-color: #004d00;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Navbar Styling */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #004d00;  /* Dark green background */
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  font-size: 1.2rem;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navbar a:hover {
+  color: #66ff66;  /* Lighter green on hover */
 }
