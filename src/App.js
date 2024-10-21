@@ -1,110 +1,69 @@
-// src/App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar';  // Import Navbar component
-import { FaBars } from 'react-icons/fa';  // Import hamburger menu icon
-import './App.css';  // Custom CSS for the home page
+import Home from './Home';       // Separate Home component
+import List from './List';       // Separate GroceryList component
+import Scan from './Scan';       // Separate Scan component
+import Deals from './Deals';     // Separate Deals component
+import Freefood from './Freefood';  // Separate FreeFood component
+import Account from './Account';  // Separate Account component
+import './App.css';              // Custom CSS for the home page
 
 function App() {
-  const [groceryList, setGroceryList] = useState(['Milk', 'Eggs', 'Bread']);  // Sample grocery list
-  const [budget, setBudget] = useState(100);  // Sample budget
-  const [remainingBudget, setRemainingBudget] = useState(50);  // Sample remaining budget
-  const [recommendations, setRecommendations] = useState('');  // Placeholder for AI recommendations
-  const [barcode, setBarcode] = useState('');
-  const [nutritionInfo, setNutritionInfo] = useState(null);
+  // State and logic for login can remain as is.
+  const [isLoggedIn, setIsLoggedIn] = useState(false);  
+  const [isSignUp, setIsSignUp] = useState(false);      
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
 
-  // Handle adding a new item to the grocery list
-  const addItem = () => {
-    const newItem = prompt('Enter new grocery item:');
-    if (newItem) {
-      setGroceryList([...groceryList, newItem]);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLoginSignUp = async (e) => {
+    e.preventDefault();
+    const endpoint = isSignUp ? 'http://localhost:5000/api/register' : 'http://localhost:5000/api/login';
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', data.access_token);  // Store token on login
+        setIsLoggedIn(true);
+      } else {
+        setError(data.error || 'Invalid credentials');
+      }
+    } catch (err) {
+      setError('Error occurred during login/signup.');
     }
   };
 
-  // Fetch AI recommendations
-  const getAIRecommendations = async () => {
-    const response = await fetch('/api/recommendations', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ grocery_list: groceryList })
-    });
-    const data = await response.json();
-    setRecommendations(data.recommendations);
-  };
-
-  // Scan barcode for nutrition info
-  const scanBarcode = async () => {
-    const response = await fetch('/api/nutrition', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ barcode })
-    });
-    const data = await response.json();
-    setNutritionInfo(data);
-  };
-
   return (
-    <div className="App">
-      {/* Header */}
-      <header className="App-header">
-        <h1>Grocer-Ease</h1>
-        <FaBars className="hamburger-menu" />  {/* Hamburger icon for future settings menu */}
-      </header>
+    <Router>
+      <div className="App">
+        <Navbar />  {/* Include Navbar without <Router> */}
 
-      {/* Main Sections */}
-      <div className="home-content">
-        <div className="section">
-          <h2>Grocery List Overview</h2>
-          <ul>
-            {groceryList.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="section">
-          <h2>Budget Overview</h2>
-          <p>Total Budget: ${budget}</p>
-          <p>Remaining Budget: ${remainingBudget}</p>
-        </div>
-
-        <div className="section">
-          <h2>AI Recommendations</h2>
-          {recommendations ? <p>{recommendations}</p> : <p>No recommendations yet.</p>}
-        </div>
-
-        <div className="section">
-          <h2>Discount/Free Food Alerts</h2>
-          <p>Find free food or discounts near you!</p>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="quick-actions">
-          <button onClick={addItem}>Add Item to Grocery List</button>
-          <button onClick={getAIRecommendations}>Get AI Recommendations</button>
-        </div>
-
-        {/* Barcode Scanner */}
-        <div className="barcode-scanner">
-          <input
-            type="text"
-            value={barcode}
-            onChange={(e) => setBarcode(e.target.value)}
-            placeholder="Enter barcode"
-          />
-          <button onClick={scanBarcode}>Scan</button>
-          {nutritionInfo && (
-            <div>
-              <h3>{nutritionInfo.food_name}</h3>
-              <p>Calories: {nutritionInfo.nf_calories}</p>
-              <p>Protein: {nutritionInfo.nf_protein}g</p>
-            </div>
-          )}
-        </div>
+        <Routes>
+          {/* Define Routes for different pages */}
+          <Route path="/" element={<Home />} />
+          <Route path="/grocery-list" element={<List />} />
+          <Route path="/scan" element={<Scan />} />
+          <Route path="/deals" element={<Deals />} />
+          <Route path="/free-food" element={<Freefood />} />
+          <Route path="/account" element={<Account />} />
+        </Routes>
       </div>
-
-      {/* Bottom Navigation */}
-      <Navbar />
-    </div>
+    </Router>
   );
 }
 
