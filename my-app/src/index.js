@@ -6,7 +6,7 @@ import './index.css';
 import App from './App';
 import Scan from './Scan';
 import List from './List';
-import FreeFood from './FreeFood';
+import FreeFood from './Freefood';
 
 
 ReactDOM.render(

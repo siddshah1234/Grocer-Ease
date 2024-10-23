@@ -150,6 +150,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar setSelectedPage={setSelectedPage} />
       {/* Header */}
       <header className="App-header">
         <h1>Grocer-Ease</h1>
@@ -163,7 +164,7 @@ function App() {
 
       {/* Bottom Navigation */}
       
-      <Navbar setSelectedPage={setSelectedPage} />
+      
     </div>
   );
 }
