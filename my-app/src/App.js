@@ -1,11 +1,12 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
-import Navbar from './Navbar';  // Correctly import Navbar component
-import Scan from './Scan';  // Correctly import Scan component for barcode scanning
-import { FaBars } from 'react-icons/fa';  // Import hamburger menu icon
+import Navbar from './Navbar';  // Import Navbar component
+import Scan from './Scan';  // Import Scan component
 import './App.css';  // Custom CSS for the home page
+import Logo from "./images/logo.PNG";
 
 function App() {
+  const [selectedPage, setSelectedPage] = useState('home');  // Track the selected page
   const [groceryList, setGroceryList] = useState(['Milk', 'Eggs', 'Bread']);  // Sample grocery list
   const [budget, setBudget] = useState(100);  // Sample budget
   const [remainingBudget, setRemainingBudget] = useState(50);  // Sample remaining budget
@@ -50,11 +51,12 @@ function App() {
       console.error("Error in login/signup request: ", err);
     }
   };
+
   // If not logged in, show the login/signup form
   if (!isLoggedIn) {
     return (
       <div className="login-container">
-        <img src="logo.png" alt="Logo" />;
+        <img src={Logo} alt="Logo" />
         <h2>{isSignUp ? 'Sign Up' : 'Login'}</h2>
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleLoginSignUp}>
@@ -105,61 +107,65 @@ function App() {
     setRecommendations('Try adding some more vegetables and fruits.');
   };
 
-  // Main App Page (Once logged in)
+  // Function to determine which page to show
+  const renderPage = () => {
+    switch (selectedPage) {
+      case 'home':
+        return (
+          <div className="home-content">
+            <div className="section">
+              <h2>Grocery List Overview</h2>
+              <ul>
+                {groceryList.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="section">
+              <h2>Budget Overview</h2>
+              <p>Total Budget: ${budget}</p>
+              <p>Remaining Budget: ${remainingBudget}</p>
+            </div>
+            <div className="section">
+              <h2>AI Recommendations</h2>
+              {recommendations ? <p>{recommendations}</p> : <p>No recommendations yet.</p>}
+            </div>
+            <div className="section">
+              <h2>Discount/Free Food Alerts</h2>
+              <p>Find free food or discounts near you!</p>
+            </div>
+            <div className="quick-actions">
+              <button onClick={addItemToGroceryList}>Add Item to Grocery List</button>
+              <button onClick={getAIRecommendations}>Get AI Recommendations</button>
+            </div>
+          </div>
+        );
+      case 'scan':
+        return <Scan />;
+      // Add more cases for other components like 'deals', 'groceryList', etc.
+      default:
+        return <div>Page not found</div>;
+    }
+  };
+
   return (
     <div className="App">
       {/* Header */}
       <header className="App-header">
         <h1>Grocer-Ease</h1>
-        <FaBars className="hamburger-menu" />  {/* Hamburger icon for future settings menu */}
+        <div className='slogan'>
+        <p>making shopping simple.</p>
+        </div>
       </header>
 
-      {/* Main Sections */}
-      <div className="home-content">
-        <div className="section">
-          <h2>Grocery List Overview</h2>
-          <ul>
-            {groceryList.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="section">
-          <h2>Budget Overview</h2>
-          <p>Total Budget: ${budget}</p>
-          <p>Remaining Budget: ${remainingBudget}</p>
-        </div>
-
-        <div className="section">
-          <h2>AI Recommendations</h2>
-          {recommendations ? <p>{recommendations}</p> : <p>No recommendations yet.</p>}
-        </div>
-
-        <div className="section">
-          <h2>Discount/Free Food Alerts</h2>
-          <p>Find free food or discounts near you!</p>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="quick-actions">
-          <button onClick={addItemToGroceryList}>Add Item to Grocery List</button>
-          <button onClick={getAIRecommendations}>Get AI Recommendations</button>
-        </div>
-
-        
-
-        </div>
+      {/* Dynamic content based on selected page */}
+      {renderPage()}
 
       {/* Bottom Navigation */}
-      <Navbar />
+      
+      <Navbar setSelectedPage={setSelectedPage} />
     </div>
   );
 }
 
 export default App;
-// you aint nothin but a broke fein fe
-
-//{/* Barcode Scanning Feature */}
-//<Scan />  {/* Make sure Scan is exported properly from Scan.js */} 
-      
