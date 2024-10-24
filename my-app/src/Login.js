@@ -1,13 +1,13 @@
 // src/Login.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 
 function Login({ setIsLoggedIn }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [isSignUp, setIsSignUp] = useState(false);  // Track whether the user is signing up
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ function Login({ setIsLoggedIn }) {
       if (response.ok) {
         localStorage.setItem('token', data.access_token); // For login store token
         setIsLoggedIn(true);
-        navigate('/');
+        //navigate('/');
       } else {
         setError(data.error || (isSignUp ? 'Signup failed' : 'Login failed'));
       }
