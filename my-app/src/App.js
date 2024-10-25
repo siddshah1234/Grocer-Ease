@@ -18,6 +18,13 @@ function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+<<<<<<< HEAD
+  const [airesponse, setAiResponse] = useState(''); // State for loading state
+
+
+  const gptKey = "...";
+=======
+>>>>>>> parent of cbc64bb (prolly last hopefully)
 
   // Check if token exists in local storage (indicates logged in)
   useEffect(() => {

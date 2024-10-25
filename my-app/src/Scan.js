@@ -9,8 +9,14 @@ function Scan() {
   const [loading, setLoading] = useState(false); // State for loading state
 
   // Nutritionix API details
+<<<<<<< HEAD
+  const NUTRITIONIX_APP_ID = '11709d30'; // Replace with your App ID
+  const NUTRITIONIX_API_KEY = '62e30535e49e2ae24f128b68fbea8115'; // Replace with your API Key
+  const gptKey = '...';
+=======
   const NUTRITIONIX_APP_ID = 'da114bcd'; // Replace with your App ID
   const NUTRITIONIX_API_KEY = 'a88477084af1fffc75dde66cfa47bd1f'; // Replace with your API Key
+>>>>>>> parent of cbc64bb (prolly last hopefully)
 
   // Function to fetch nutrition data from Nutritionix API
   const fetchNutritionInfo = async () => {
